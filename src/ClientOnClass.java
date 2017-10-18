@@ -16,6 +16,8 @@ import javax.crypto.NoSuchPaddingException;
 public class ClientOnClass {
 	public static void main(String[] args) throws ClassNotFoundException
 	{
+		System.out.println("You are on the client side");
+		
 		try{
 			int port_client = 9995;
 			Socket msocket = new Socket(InetAddress.getLocalHost(), port_client);
@@ -37,8 +39,8 @@ public class ClientOnClass {
 			
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.ENCRYPT_MODE, serverPublicKey);
-			String plainText = "I have a secret";
-			System.out.println(new String(plainText.getBytes()));
+			String plainText = "let's hang over.";
+			System.out.println(String.format("Plaintext sent is : %s", plainText));
 			
 			byte[] cipherText = cipher.doFinal(plainText.getBytes());
 			dos.writeInt(cipherText.length);
@@ -56,7 +58,7 @@ public class ClientOnClass {
 			
 			DataInputStream dis = new DataInputStream(msocket.getInputStream());
 			String result = dis.readUTF();
-			System.out.println("The result returned by server is " + result);
+			System.out.println("The result returned by server is : " + result);
 			String result2 = dis.readUTF();
 			System.out.println("The integrity of message is checked with " + result2);
 	

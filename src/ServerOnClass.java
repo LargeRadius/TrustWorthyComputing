@@ -18,11 +18,15 @@ public class ServerOnClass {
 	{
 		int port_server = 9995;
 		ServerSocket mss = new ServerSocket(port_server);
+		int numOfConnection = 0;
+		
+		System.out.println("You are on the server side:");
 		
 		try {
 			while(true) {
+				System.out.println("\nServer is listening...");
 				Socket ms = mss.accept();
-				
+				System.out.println(String.format("This is the %d th connection.", ++numOfConnection));
 				try {
 					KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 					keyGen.initialize(512);
@@ -48,7 +52,8 @@ public class ServerOnClass {
 					Cipher cipher = Cipher.getInstance("RSA");
 					cipher.init(Cipher.DECRYPT_MODE, serverKey.getPrivate());
 					String plainText = new String(cipher.doFinal(cipherText));
-					String result = "Echo from server is: " + plainText;
+					System.out.println(String.format("The plaintext decripted on server side is : %s", plainText));
+					String result = String.format("The message %s is received", plainText);
 					
 					MessageDigest md = MessageDigest.getInstance("MD5");
 					int lengthMd = dis.readInt();
